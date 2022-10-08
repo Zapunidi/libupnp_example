@@ -4,20 +4,25 @@ An simple application example that use libupnp to list discovered devices (Linux
 ## Prerequisites
 
 Install dependencies with
-`sudo apt install libupnp-dev`
+```bash
+% sudo apt install libupnp-dev
+```
 
 ## Building
 
 Make a build dir and compile with linking of libupnp library:
 
-`mkdir build`
-`gcc main.c -o build/libupnp_example -lupnp`
+```bash
+% mkdir build
+% gcc main.c -o build/libupnp_example -lupnp`
+```
 
 ## Usage
 
-Usage: `libupnp <interface_name> <timeout_s>`
+Usage: `libupnp <interface_name> <timeout_s>`  
 For example: `libupnp enp4s0 3` gives with sample libupnp tvdevices server the following output:
 
+```
 Event: UPNP_DISCOVERY_SEARCH_RESULT
 The cookie value is "I am a cookie."
 ErrCode     =  0
@@ -43,3 +48,5 @@ OS          =  Linux/4.15.0-193-generic, UPnP/1.0, Portable SDK for UPnP devices
 Date        =  Sat, 08 Oct 2022 07:41:35 GMT
 Ext         =  
 Event: UPNP_DISCOVERY_SEARCH_TIMEOUT
+```
+It contains three events: 2 DISCOVERY events and one TIMEOUT event. Expect only TIMEOUT event in case no SSDP server is running.
