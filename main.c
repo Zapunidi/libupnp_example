@@ -1,6 +1,20 @@
 #include <stdio.h>
+
+// Cross-platform sleep
+#ifdef _WINDOWS
+#define _WINSOCKAPI_ // Fix Winsock2 according to https://stackoverflow.com/questions/3059141/winsock-compile-error
+#include <windows.h>
+#else
 #include <unistd.h>
+#define Sleep(x) usleep((x)*1000)
+#endif
+
+// Cross platform upnp
+#ifdef _WINDOWS
+#include "upnp.h"
+#else
 #include <upnp/upnp.h>
+#endif
 
 
 int callback_event_handler(Upnp_EventType event_type, const void* event, void* cookie)
@@ -79,24 +93,36 @@ int callback_event_handler(Upnp_EventType event_type, const void* event, void* c
 }
 
 
-int main(int argc, char** argv)
-{
-    if (argc != 3)
-    {
-        printf("Usage: %s <interface_name> <timeout_s>\n", argv[0]);
+int main(int argc, char** argv) {
+    if (argc > 3 || argc < 2) {
+        printf("Usage: %s [interface_name] <timeout_s>\n", argv[0]);
         return 1;
     }
-    char interface[100];
+    char if_name[100];
     unsigned int timeout;
-    sscanf(argv[1], "%s", interface);
-    sscanf(argv[2], "%d", &timeout);
     const char cookie[] = "I am a cookie.";
     UpnpClient_Handle client_handle = -1;
+    int ret;
 
-    UpnpInit2(interface, 0);
+    sscanf(argv[argc - 1], "%d", &timeout);
+    if (argc == 3) {
+        sscanf(argv[1], "%s", if_name);
+        ret = UpnpInit2(if_name, 0);
+    }
+    else {
+        printf("Using first suitable network interface.\n");
+        ret = UpnpInit2(NULL, 0);
+    }
+    if (ret != UPNP_E_SUCCESS) {
+        printf("Init failed: code %i\n", ret);
+        if (ret == UPNP_E_INVALID_INTERFACE) {
+            printf("Bad interface name.");
+        }
+        return 2;
+    }
     UpnpRegisterClient(callback_event_handler, &cookie, &client_handle);
     UpnpSearchAsync(client_handle, timeout, "upnp:rootdevice", cookie);
-    sleep(timeout);
+    Sleep(timeout * 1000);
     UpnpFinish();
     return 0;
 }
