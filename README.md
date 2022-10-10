@@ -74,3 +74,4 @@ It contains three events: 2 DISCOVERY events and one TIMEOUT event. Expect only 
 What is the network interface name in Windows? How do you get it? Why everything need to be so difficult?
 There is a page called "View hardware and connections properties" in Windows 10. There you will see the names of the interfaces like: Ethernet, vEthernet (Ethernet), vEthernet (Wi-Fi), Local Area Connection, Local Area Connection* 3, Wi-Fi and so on. Yes, these are the correct names. Just don't forget the quotes.
 Hint: just disable all interfaces except the one you need for test. Then run libupnp_example with no interface name. It will use the only remaining inteface.
+Tool: There is a script to determine the name of the interface based on its IP address. Find it in tools folder. Usage is `get_if_name_windows <ip_address>`.
