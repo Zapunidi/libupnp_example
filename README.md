@@ -21,11 +21,21 @@ That's all for now.
 
 ### Linux
 
+#### GCC only
+
 Make a build dir and compile with linking of libupnp library:
 
 ```bash
 % mkdir build
 % gcc main.c -o build/libupnp_example -lupnp`
+```
+
+#### CMake based
+
+```bash
+% mkdir build
+% cmake ..
+% make
 ```
 
 ### Windows
