@@ -1,5 +1,6 @@
 # libupnp_example
-An simple application example that use libupnp to list discovered devices (Windows and Linux)
+An simple application example that use libupnp to list discovered devices using SSDP.  
+Windows and Linux are supported.
 
 ## Prerequisites
 
@@ -40,15 +41,16 @@ Make a build dir and compile with linking of libupnp library:
 
 ### Windows
 
-Open cmake-gui and choose this repository as sources. Then copy-paste the path in the binary output folder and add "\build" in the end.
-Run Configure and Generate. Then run build in your build tool. I tested with Visual Studio 2019.
+Open cmake-gui and choose this repository as sources. Then copy-paste the path in the binary output folder and add "\build" in the end. It will look like this:
+![example of cmake-gui paths](doc/cmake_gui.png)
+Run Configure and Generate. Then run build in your build tool.
 You will get libupnp_example.exe file. Copy three DLLs from the Prerequisites section of this manual to the folder with the executable file.
 
 ## Usage
 
 Usage: `libupnp [interface_name] <timeout_s>`  
 When network interface is not set, the first suitable interface is used. When network interface name contains spaces, use double quotes around it.
-For example: `libupnp enp4s0 3` gives with sample libupnp tvdevices server the following output:
+For example: Run tvdevices server from the pupnp samples. Then running `libupnp_example enp4s0 3` will produce the following output (replace enp4s0 with your interface name):
 
 ```
 Event: UPNP_DISCOVERY_SEARCH_RESULT
@@ -81,7 +83,23 @@ It contains three events: 2 DISCOVERY events and one TIMEOUT event. Expect only 
 
 ### Windows hints
 
-What is the network interface name in Windows? How do you get it? Why everything need to be so difficult?
-There is a page called "View hardware and connections properties" in Windows 10. There you will see the names of the interfaces like: Ethernet, vEthernet (Ethernet), vEthernet (Wi-Fi), Local Area Connection, Local Area Connection* 3, Wi-Fi and so on. Yes, these are the correct names. Just don't forget the quotes.
-Hint: just disable all interfaces except the one you need for test. Then run libupnp_example with no interface name. It will use the only remaining inteface.
+What is the network interface name in Windows? How do you get it? Why everything needs to be so difficult?  
+There is a page called "View hardware and connections properties" in Windows 10. There you will see the names of the interfaces like: Ethernet, vEthernet (Ethernet), vEthernet (Wi-Fi), Local Area Connection, Local Area Connection* 3, Wi-Fi and so on. Yes, these are the correct names. Just don't forget the quotes. Here is the example:  
+![example of cmake-gui paths](doc/windows_interfaces.png)  
+Hint: just disable all interfaces except the one you need for test. Then run libupnp_example with no interface name. It will use the only remaining inteface.  
 Tool: There is a script to determine the name of the interface based on its IP address. Find it in tools folder. Usage is `get_if_name_windows <ip_address>`.
+
+## Configuration
+
+Manually tested in the following conditions:  
+- pupnp v1.14.14 (https://github.com/pupnp/pupnp/releases/tag/release-1.14.14)
+
+### Linux
+
+- Lubuntu 18.04
+
+### Windows
+
+- Windows 10 10.0.19044
+- CMake-gui 3.23
+- Visual Studio 2019
