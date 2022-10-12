@@ -3,6 +3,7 @@ build/*
 
 # IDE
 .vscode/*
+.idea/*
 
 # Prerequisites
 *.d
