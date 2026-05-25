@@ -28,13 +28,14 @@ Make a build dir and compile with linking of libupnp library:
 
 ```bash
 % mkdir build
-% gcc main.c -o build/libupnp_example -lupnp`
+% gcc main.c -o build/libupnp_example -lupnp
 ```
 
 #### CMake based
 
 ```bash
 % mkdir build
+% cd build
 % cmake ..
 % make
 ```
@@ -48,7 +49,7 @@ You will get libupnp_example.exe file. Copy three DLLs from the Prerequisites se
 
 ## Usage
 
-Usage: `libupnp [interface_name] <timeout_s>`  
+Run executable from the build directory: `libupnp_example [interface_name] <timeout_s>`  
 When network interface is not set, the first suitable interface is used. When network interface name contains spaces, use double quotes around it.
 For example: Run tvdevices server from the pupnp samples. Then running `libupnp_example enp4s0 3` will produce the following output (replace enp4s0 with your interface name):
 
@@ -97,6 +98,7 @@ Manually tested in the following conditions:
 ### Linux
 
 - Lubuntu 18.04
+- Xubuntu 24.04 (libupnp-dev (1:1.14.18-1.1ubuntu2))
 
 ### Windows
 
